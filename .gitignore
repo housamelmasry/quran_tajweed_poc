@@ -1,5 +1,8 @@
 # Audio files
-audio/
+audio/reference/words/*.mp3
+audio/reference/ayahs/*.mp3
+audio/reference/full/*.mp3
+audio/user/*
 *.mp3
 *.wav
 
