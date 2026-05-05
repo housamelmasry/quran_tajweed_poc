@@ -2,6 +2,7 @@ import librosa
 import numpy as np
 import json
 import os
+import argparse
 from src.audio_processor import AudioProcessor
 from src.aligner import DTWAligner
 from src.core.madd_analyzer  import MaddAnalyzer
@@ -174,18 +175,68 @@ def run_poc(user_audio_path, ayah_data, words_dir):
         'madood':     madd_evaluations,
         'score':      score
     }
+def parse_args():
+    parser = argparse.ArgumentParser(
+        description="Quran Tajweed Analysis CLI"
+    )
+
+    subparsers = parser.add_subparsers(dest="command")
+
+    # ───────── analyze command ─────────
+    analyze_parser = subparsers.add_parser(
+        "analyze",
+        help="Analyze user recitation audio"
+    )
+
+    analyze_parser.add_argument(
+        "--file",
+        required=True,
+        help="Path to user audio file"
+    )
+
+    analyze_parser.add_argument(
+        "--surah",
+        default="fatiha",
+        help="Surah name (default: fatiha)"
+    )
+
+    analyze_parser.add_argument(
+        "--output",
+        help="Path to save JSON output"
+    )
+
+    return parser.parse_args()
+
 
 if __name__ == "__main__":
-    
-    with open('data/fatiha_madood.json', 'r',
-              encoding='utf-8') as f:
-        data = json.load(f)
-    
-    run_poc(
-        user_audio_path = 'audio/user/test.wav',
-        ayah_data       = data['ayat'][0],
-        words_dir       = 'audio/reference/words'
-    )
+    args = parse_args()
+
+    if args.command == "analyze":
+        import json
+
+        data_path = f"data/{args.surah}_madood.json"
+
+        with open(data_path, "r", encoding="utf-8") as f:
+            data = json.load(f)
+            
+        if not os.path.exists(args.file):
+            print(f"❌ File not found: {args.file}")
+            exit(1)
+
+        results = run_poc(
+            user_audio_path=args.file,
+            ayah_data=data["ayat"][0],
+            words_dir="audio/reference/words"
+        )
+
+        if args.output:
+            with open(args.output, "w", encoding="utf-8") as f:
+                json.dump(results, f, ensure_ascii=False, indent=4)
+            print(f"\n✅ Results saved to: {args.output}")
+
+    else:
+        print("❌ Please provide a command. Use --help")
 
     print("⚙️ Config Loaded:")
     print(settings)
+
