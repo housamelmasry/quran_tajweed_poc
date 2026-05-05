@@ -1,0 +1,32 @@
+{
+    "alignment": [
+        {
+            "start_time": 0.0,
+            "end_time": 0.865,
+            "duration": 0.865,
+            "confidence": 0.049,
+            "word": "بِسْمِ",
+            "found": true
+        },
+        {
+            "start_time": 1.7069999999999999,
+            "end_time": 3.2220000000000004,
+            "duration": 1.515,
+            "confidence": 0.098,
+            "word": "اللَّهِ",
+            "found": true
+        },
+        {
+            "word": "الرَّحْمَٰنِ",
+            "found": false,
+            "confidence": 0
+        },
+        {
+            "word": "الرَّحِيمِ",
+            "found": false,
+            "confidence": 0
+        }
+    ],
+    "madood": [],
+    "score": 0
+}

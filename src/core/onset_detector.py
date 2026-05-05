@@ -8,20 +8,20 @@ class OnsetDetector:
     
     def detect_onsets(self, y):
         """
-        كشف بداية كل وحدة صوتية
+        detecting the start of each audio unit
         """
         # Onset Detection
         onset_frames = librosa.onset.onset_detect(
             y=y,
             sr=self.sr,
-            wait=1,         # الحد الأدنى بين Onsets
+            wait=1,         # the minimum time between onsets
             pre_avg=3,
             post_avg=3,
             pre_max=3,
             post_max=3
         )
         
-        # تحويل من Frames إلى ثواني
+        # converting frames to seconds
         onset_times = librosa.frames_to_time(
             onset_frames, 
             sr=self.sr
@@ -31,7 +31,7 @@ class OnsetDetector:
     
     def get_sound_segments(self, y, onset_times):
         """
-        تحديد بداية ونهاية كل مقطع صوتي
+        identifying the start and end of each audio segment
         """
         segments = []
         samples = librosa.time_to_samples(
@@ -41,7 +41,7 @@ class OnsetDetector:
         
         for i in range(len(samples)):
             start = samples[i]
-            # النهاية = بداية المقطع التالي أو نهاية الملف
+            # the end = the start of the next segment or the end of the file
             end = samples[i + 1] if i + 1 < len(samples) \
                   else len(y)
             

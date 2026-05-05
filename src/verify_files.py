@@ -35,7 +35,6 @@ def verify_audio_files(json_path, words_dir):
             )
     else:
         print("\n🎉 All files are present — ready for playback")
-        # print("\n🎉 جميع الملفات موجودة — جاهز للتشغيل")
 
 if __name__ == "__main__":
     verify_audio_files(

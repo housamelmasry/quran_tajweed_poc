@@ -30,8 +30,8 @@ class FeatureConfig:
 # ───────────────────────────────
 @dataclass
 class DTWConfig:
-    step: int = 5
-    mfcc_dims_used: int = 5   # For performance optimization
+    step: int = 10
+    mfcc_dims_used: int = 3   # For performance optimization
 
 
 # ───────────────────────────────

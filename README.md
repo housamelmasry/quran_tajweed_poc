@@ -62,7 +62,7 @@ quran_tajweed_poc/
 │   └── fatiha_madood.json  # Metadata: word timings, Madd rules, etc.
 ├── src/
 │   ├── audio_processor.py  # Audio loading, preprocessing, cleaning
-│   ├── aligner.py          # Word alignment between user and reference audio
+│   ├── DTWAligner.py          # Word alignment between user and reference audio
 │   ├── madd_analyzer.py    # Tajweed Madd rule detection and analysis
 │   ├── audio_aligner.py    # Additional alignment utilities
 │   ├── onset_detector.py   # Sound onset detection
@@ -198,7 +198,7 @@ Output (Graphs, JSON results)
 - Noise reduction, normalization
 - Feature extraction (spectrograms, MFCCs)
 
-### `aligner.py`
+### `DTWAligner.py`
 
 - `WordAligner` class for aligning user audio with reference recordings
 - Uses DTW (Dynamic Time Warping) for time-series matching

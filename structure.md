@@ -4,7 +4,7 @@ quran_tajweed_poc/
 ├── src/
 │ ├── core/
 │ │ ├── audio_processor.py
-│ │ ├── aligner.py
+│ │ ├── DTWAligner.py
 │ │ └── onset_detector.py
 │ │
 │ ├── analysis/
