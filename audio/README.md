@@ -6,11 +6,17 @@ This folder contains all audio files for the Quran Tajweed POC project.
 
 ```
 audio/
-├── reference/              # Reference recordings for comparison
-│   ├── words/             # Isolated word recordings (one word per file)
-│   └── full/              # Full Ayah (verse) recordings
-└── user/                  # User test recordings
+├── reference/
+│   ├── words/     # Individual word recordings (one word per file)
+│   └── full/      # Full ayah recordings
+└── user/          # User test recordings (not tracked in git)
 ```
+
+## 🔒 Storage & Privacy
+
+- Audio files are stored **locally only**
+- They are excluded via `.gitignore`
+- Do NOT upload copyrighted recitations to public repositories
 
 ## 🎙️ How to Add Your Own Audio Files
 

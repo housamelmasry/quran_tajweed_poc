@@ -1,5 +1,24 @@
 # Quran Tajweed POC (Proof of Concept)
 
+## ⚠️ Audio Notice
+
+Audio files are **NOT included** in this repository due to licensing restrictions.
+
+- You must provide your own audio files
+- Ensure you have the right to use any Quran recitations
+- See `DATA_POLICY.md` for full details
+
+## 📖 Disclaimer
+
+This project is for **educational and research purposes only**.
+
+It does NOT replace:
+
+- Learning with a qualified Quran teacher
+- Formal Tajweed study
+
+Results may not be fully accurate and should be used as a supportive tool only.
+
 ## 📖 Project Overview
 
 This is a **Proof of Concept** project for analyzing Quran recitations with a focus on **Tajweed** rules. It uses audio processing, signal alignment, and machine learning techniques to compare user Quran recitations against reference recordings and provide feedback on proper pronunciation, timing, and Tajweed rule adherence.
@@ -220,6 +239,11 @@ Contributions are welcome! To contribute:
 ## 📄 License
 
 This project is open source. Check LICENSE file for details.
+
+## ⚠️ Audio Notice
+
+Audio files are not included in this repository due to licensing restrictions.
+Please refer to DATA_POLICY.md for details.
 
 ## 💬 Questions & Support
 
