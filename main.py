@@ -208,6 +208,17 @@ def parse_args():
     return parser.parse_args()
 
 
+class NumpyEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, np.integer):
+            return int(obj)
+        if isinstance(obj, np.floating):
+            return float(obj)
+        if isinstance(obj, np.ndarray):
+            return obj.tolist()
+        return super(NumpyEncoder, self).default(obj)
+
+
 if __name__ == "__main__":
     args = parse_args()
 
@@ -231,7 +242,13 @@ if __name__ == "__main__":
 
         if args.output:
             with open(args.output, "w", encoding="utf-8") as f:
-                json.dump(results, f, ensure_ascii=False, indent=4)
+                json.dump(
+                    results, 
+                    f, 
+                    ensure_ascii=False, 
+                    indent=4, 
+                    cls=NumpyEncoder
+                )
             print(f"\n✅ Results saved to: {args.output}")
 
     else:
