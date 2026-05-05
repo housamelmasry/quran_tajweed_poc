@@ -2,6 +2,7 @@ import librosa
 import librosa.display
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
+from config.settings import settings
 import numpy as np
 
 class Visualizer:
@@ -16,18 +17,18 @@ class Visualizer:
         madd_evaluations
     ):
         """
-        رسم شامل يوضح:
-        - Waveform مع مواضع الكلمات
-        - نتيجة كل مد
+        Comprehensive plot showing:
+        - Waveform with word positions
+        - Evaluation result for each Madd
         """
         fig, axes = plt.subplots(3, 1, figsize=(14, 10))
         fig.suptitle(
-            'تحليل التلاوة — سورة الفاتحة',
+            'Recitation Analysis — Surah Al-Fatiha',
             fontsize=14,
             fontweight='bold'
         )
         
-        # ── الرسم الأول: Waveform مع مواضع الكلمات ──
+        # ── First Plot: Waveform with Word Positions ──
         ax1 = axes[0]
         librosa.display.waveshow(
             user_audio,
@@ -36,29 +37,29 @@ class Visualizer:
             color='steelblue',
             alpha=0.7
         )
-        ax1.set_title('الموجة الصوتية مع مواضع الكلمات')
-        ax1.set_xlabel('الوقت (ثانية)')
+        ax1.set_title('Waveform with Word Alignment')
+        ax1.set_xlabel('Time (seconds)')
         
-        # تلوين مناطق الكلمات
+        # Word region coloring
         colors = {
-            'صحيح':  '#2ecc71',  # أخضر
-            'نقصان': '#e67e22',  # برتقالي
-            'زيادة': '#3498db',  # أزرق
-            'خطأ':   '#e74c3c'   # أحمر
+            'Correct': '#2ecc71',  # Green
+            'Short':   '#e67e22',  # Orange
+            'Long':    '#3498db',  # Blue
+            'Error':   '#e74c3c'   # Red
         }
         
         for result in alignment_results:
             if not result['found']:
                 continue
             
-            # البحث عن نتيجة المد لهذه الكلمة
+            # Find Madd evaluation for this word
             madd_eval = next(
                 (m for m in madd_evaluations 
                  if m['word'] == result['word']),
                 None
             )
             
-            color = '#95a5a6'  # رمادي — لا يوجد مد
+            color = '#95a5a6'  # Gray — No Madd
             label = result['word']
             
             if madd_eval:
@@ -67,7 +68,7 @@ class Visualizer:
                 label  = (
                     f"{result['word']}\n"
                     f"{madd_eval['actual']}/"
-                    f"{madd_eval['required']} حركة"
+                    f"{madd_eval['required']} Harakah"
                 )
             
             ax1.axvspan(
@@ -84,7 +85,7 @@ class Visualizer:
                 fontsize=8
             )
         
-        # ── الرسم الثاني: RMS Energy ──
+        # ── Second Plot: RMS Energy ──
         ax2 = axes[1]
         rms = librosa.feature.rms(
             y=user_audio,
@@ -97,18 +98,18 @@ class Visualizer:
             hop_length=128
         )
         ax2.plot(times, rms, color='darkorange', linewidth=1.5)
-        ax2.set_title('RMS Energy — مستوى الصوت')
-        ax2.set_xlabel('الوقت (ثانية)')
+        ax2.set_title('RMS Energy — Volume Level')
+        ax2.set_xlabel('Time (seconds)')
         ax2.set_ylabel('RMS')
         ax2.grid(True, alpha=0.3)
         
-        # ── الرسم الثالث: نتائج المدود ──
+        # ── Third Plot: Madd Evaluation Results ──
         ax3 = axes[2]
         
         words   = [m['word']     for m in madd_evaluations]
         actual  = [m['actual']   for m in madd_evaluations]
         
-        # المطلوب — نأخذ القيمة الوسطى للنطاق
+        # Required — Take the midpoint of the range
         required = []
         for m in madd_evaluations:
             req = m['required']
@@ -125,12 +126,12 @@ class Visualizer:
         
         bars1 = ax3.bar(
             x - w/2, required,
-            w, label='المطلوب',
+            w, label='Required',
             color='steelblue', alpha=0.8
         )
         bars2 = ax3.bar(
             x + w/2, actual,
-            w, label='الفعلي',
+            w, label='Actual',
             color=[
                 colors.get(
                     m['evaluation']['status'],
@@ -141,14 +142,14 @@ class Visualizer:
             alpha=0.8
         )
         
-        ax3.set_title('مقارنة المدود — المطلوب vs الفعلي')
+        ax3.set_title('Madd Comparison — Required vs Actual')
         ax3.set_xticks(x)
         ax3.set_xticklabels(words, fontsize=9)
-        ax3.set_ylabel('عدد الحركات')
+        ax3.set_ylabel('Harakaat')
         ax3.legend()
         ax3.grid(True, alpha=0.3, axis='y')
         
-        # Legend للألوان
+        # Color Legend
         patches = [
             mpatches.Patch(
                 color=c, label=s
@@ -163,9 +164,8 @@ class Visualizer:
         
         plt.tight_layout()
         plt.savefig(
-            'output/analysis_result.png',
-            dpi=150,
-            bbox_inches='tight'
+            settings.visualization.save_path,
+            dpi=settings.visualization.dpi
         )
-        plt.show()
-        print("✅ تم حفظ الرسم في output/analysis_result.png")
+        # plt.show()
+        print(f"✅ Plot saved to {settings.visualization.save_path}")

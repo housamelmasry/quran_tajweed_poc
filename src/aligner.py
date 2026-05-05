@@ -1,119 +1,149 @@
 import librosa
 import numpy as np
 from dtaidistance import dtw
+from config.settings import settings
 
-class WordAligner:
-    
-    def __init__(self, sr=16000):
-        self.sr = sr
-    
-    def extract_mfcc(self, y):
+
+
+class DTWAligner:
+    def __init__(self):
+        self.sr = settings.audio.sample_rate
+        self.n_mfcc = settings.feature.n_mfcc
+        self.hop_length = settings.feature.hop_length
+        self.step = settings.dtw.step
+        self.dims = settings.dtw.mfcc_dims_used
+
+    # ───────────────────────────────
+    # Feature Extraction
+    # ───────────────────────────────
+    def extract_features(self, y):
         mfcc = librosa.feature.mfcc(
             y=y,
             sr=self.sr,
-            n_mfcc=13,
-            hop_length=128
+            n_mfcc=self.n_mfcc,
+            hop_length=self.hop_length
         )
-        return mfcc.T  # (frames, 13)
-    
-    def find_word_in_audio(self, user_audio, ref_word_audio):
+        return mfcc.T  # (frames, n_mfcc)
+
+    # ───────────────────────────────
+    # Distance Calculation
+    # ───────────────────────────────
+    def compute_distance(self, window, reference):
         """
-        إيجاد موضع الكلمة المرجعية في صوت المستخدم
-        يرجع: start_time, end_time, confidence
+        حساب المسافة بين نافذة من المستخدم والكلمة المرجعية
         """
-        user_mfcc = self.extract_mfcc(user_audio)
-        ref_mfcc  = self.extract_mfcc(ref_word_audio)
-        
-        ref_len    = len(ref_mfcc)
+        # تقليل الأبعاد لتحسين الأداء
+        dims = min(self.dims, self.n_mfcc)
+
+        total = 0
+        for i in range(dims):
+            total += dtw.distance(
+                window[:, i],
+                reference[:, i]
+            )
+
+        return total
+
+    # ───────────────────────────────
+    # Core Matching
+    # ───────────────────────────────
+    def find_best_match(self, user_feat, ref_feat):
+        ref_len = len(ref_feat)
+
+        if len(user_feat) < ref_len:
+            return None
+
         best_score = float('inf')
         best_start = 0
-        
-        # نافذة البحث — تتحرك كل 5 frames
-        step = 5
-        search_end = len(user_mfcc) - ref_len
-        
-        if search_end <= 0:
-            return None
-        
-        for start in range(0, search_end, step):
-            window = user_mfcc[start:start + ref_len]
-            
-            # مقارنة DTW على كل الـ 13 معامل
-            total_dist = sum(
-                dtw.distance(
-                    window[:, i],
-                    ref_mfcc[:, i]
-                )
-                for i in range(13)
-            )
-            
-            if total_dist < best_score:
-                best_score = total_dist
+
+        for start in range(0, len(user_feat) - ref_len, self.step):
+            window = user_feat[start:start + ref_len]
+
+            score = self.compute_distance(window, ref_feat)
+
+            if score < best_score:
+                best_score = score
                 best_start = start
-        
+
         best_end = best_start + ref_len
-        
+
+        return best_start, best_end, best_score
+
+    # ───────────────────────────────
+    # Public API: Align Single Word
+    # ───────────────────────────────
+    def align_word(self, user_audio, ref_audio):
+        user_feat = self.extract_features(user_audio)
+        ref_feat = self.extract_features(ref_audio)
+
+        result = self.find_best_match(user_feat, ref_feat)
+
+        if result is None:
+            return None
+
+        start, end, score = result
+
         start_time = librosa.frames_to_time(
-            best_start,
+            start,
             sr=self.sr,
-            hop_length=128
+            hop_length=self.hop_length
         )
+
         end_time = librosa.frames_to_time(
-            best_end,
+            end,
             sr=self.sr,
-            hop_length=128
+            hop_length=self.hop_length
         )
-        
-        confidence = round(1 / (1 + best_score / ref_len), 3)
-        
+
+        confidence = 1 / (1 + score / len(ref_feat))
+
         return {
-            'start_time': round(start_time, 3),
-            'end_time':   round(end_time, 3),
-            'duration':   round(end_time - start_time, 3),
-            'confidence': confidence
+            "start_time": round(start_time, 3),
+            "end_time": round(end_time, 3),
+            "duration": round(end_time - start_time, 3),
+            "confidence": round(confidence, 3)
         }
-    
-    def align_all_words(self, user_audio, word_references):
+
+    # ───────────────────────────────
+    # Public API: Align Sequence
+    # ───────────────────────────────
+    def align_sequence(self, user_audio, references):
         """
-        محاذاة كل كلمات الآية بالترتيب
-        
-        word_references: قائمة مرتبة من
-        {'word': 'الرحمن', 'audio': np.array(...)}
+        references: [
+            {"word": "الله", "audio": np.array(...)},
+            ...
+        ]
         """
-        results     = []
-        search_from = 0  # نبحث دائماً بعد الكلمة السابقة
-        
-        for ref in word_references:
-            # قطع الصوت من موضع البحث فصاعداً
-            user_slice = user_audio[
-                int(search_from * self.sr):
-            ]
-            
-            alignment = self.find_word_in_audio(
+        results = []
+        offset_time = 0
+
+        for ref in references:
+            # نقطع الصوت من آخر موضع وصلنا له
+            start_sample = int(offset_time * self.sr)
+            user_slice = user_audio[start_sample:]
+
+            alignment = self.align_word(
                 user_slice,
-                ref['audio']
+                ref["audio"]
             )
-            
+
             if alignment is None:
                 results.append({
-                    'word':       ref['word'],
-                    'found':      False,
-                    'start_time': None,
-                    'end_time':   None,
-                    'duration':   None,
-                    'confidence': 0
+                    "word": ref["word"],
+                    "found": False,
+                    "confidence": 0
                 })
                 continue
-            
-            # تصحيح الوقت — نضيف الـ offset
-            alignment['start_time'] += search_from
-            alignment['end_time']   += search_from
-            alignment['word']        = ref['word']
-            alignment['found']       = True
-            
+
+            # تصحيح التوقيت
+            alignment["start_time"] += offset_time
+            alignment["end_time"] += offset_time
+            alignment["word"] = ref["word"]
+            alignment["found"] = True
+
             results.append(alignment)
-            
-            # الكلمة التالية تبدأ من نهاية الحالية
-            search_from = alignment['end_time']
-        
+
+            # تحديث مكان البحث
+            offset_time = alignment["end_time"]
+
         return results

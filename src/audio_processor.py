@@ -1,27 +1,29 @@
 import librosa
 import numpy as np
 import soundfile as sf
+from config.settings import settings
+
 
 class AudioProcessor:
     
-    def __init__(self, target_sr=16000):
-        self.target_sr = target_sr
+    def __init__(self):
+        self.target_sr = settings.audio.sample_rate
     
     def load_and_clean(self, file_path):
         """
-        تحميل الصوت وتنظيفه
+        Load and clean audio file.
         """
-        # تحميل مع توحيد الـ Sample Rate
+        # Load with target Sample Rate
         y, sr = librosa.load(
             file_path, 
             sr=self.target_sr,
-            mono=True  # تحويل تلقائي لـ Mono
+            mono=True  # Automatically convert to Mono
         )
         
-        # حذف الصمت من البداية والنهاية
+        # Trim silence from beginning and end
         y, _ = librosa.effects.trim(
             y, 
-            top_db=20  # كل ما هو أقل من 20db يُحذف
+            top_db=settings.audio.trim_db
         )
         
         # Normalize
@@ -31,7 +33,7 @@ class AudioProcessor:
     
     def get_rms_frames(self, y, frame_length=160, hop_length=80):
         """
-        حساب RMS لكل Frame (كل 10ms)
+        Calculate RMS for each frame (every 10ms).
         """
         rms = librosa.feature.rms(
             y=y,

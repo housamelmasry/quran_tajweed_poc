@@ -23,6 +23,18 @@ Results may not be fully accurate and should be used as a supportive tool only.
 
 This is a **Proof of Concept** project for analyzing Quran recitations with a focus on **Tajweed** rules. It uses audio processing, signal alignment, and machine learning techniques to compare user Quran recitations against reference recordings and provide feedback on proper pronunciation, timing, and Tajweed rule adherence.
 
+## 💡 Why This Project Matters
+
+Learning proper Quran recitation (Tajweed) traditionally requires direct guidance from a qualified teacher.
+
+This project explores how **audio processing and alignment algorithms** can assist learners by:
+
+- Providing objective feedback on pronunciation and timing
+- Detecting mistakes in elongation (Madd)
+- Helping learners practice independently
+
+It bridges **Islamic studies** with **modern signal processing and AI techniques**.
+
 ## 🎯 Project Goals
 
 - **Audio Analysis**: Process and analyze Quran recitation audio files
@@ -217,6 +229,13 @@ Analysis results are saved to the `output/` folder:
 - `results.json` - Detailed analysis results
 - `feedback_report.txt` - Human-readable feedback
 
+## 🎥 Demo
+
+Example output:
+
+- Word alignment visualization
+- Madd analysis report
+
 ## 🔮 Future Enhancements
 
 - [ ] Web interface for user testing
@@ -225,6 +244,13 @@ Analysis results are saved to the `output/` folder:
 - [ ] Support for multiple Quranic chapters
 - [ ] Mobile application
 - [ ] Multi-user feedback and progress tracking
+
+## ⚠️ Limitations
+
+- Sensitive to background noise
+- Requires clean reference audio
+- DTW-based alignment may be slow for long recordings
+- Does not yet support all Tajweed rules
 
 ## 🤝 Contributing
 
@@ -244,6 +270,39 @@ This project is open source. Check LICENSE file for details.
 
 Audio files are not included in this repository due to licensing restrictions.
 Please refer to DATA_POLICY.md for details.
+
+## 🚀 Roadmap
+
+### Phase 1 (Current - POC)
+
+- Word-level alignment using DTW
+- Basic Madd analysis
+- Visualization output
+
+### Phase 2
+
+- Performance optimization
+- Configurable pipeline
+- CLI interface
+
+### Phase 3
+
+- Web interface (Streamlit)
+- Real-time feedback
+- ML-based Tajweed classification
+
+### Phase 4
+
+- Mobile integration
+- Multi-user tracking
+- Cloud processing
+
+## ⚙️ Engineering Decisions
+
+- **MFCC Features** used for robust audio representation
+- **Dynamic Time Warping (DTW)** for alignment across different recitation speeds
+- **Sequential Word Alignment** to preserve Quranic structure
+- **Energy-based segmentation** for detecting sound boundaries
 
 ## 💬 Questions & Support
 

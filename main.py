@@ -3,13 +3,14 @@ import numpy as np
 import json
 import os
 from src.audio_processor import AudioProcessor
-from src.aligner        import WordAligner
-from src.madd_analyzer  import MaddAnalyzer
+from src.aligner import DTWAligner
+from src.core.madd_analyzer  import MaddAnalyzer
 from src.visualizer     import Visualizer
+from config.settings import settings
 
 def load_word_references(words_dir, word_list):
     """
-    تحميل الملفات الصوتية المرجعية لكل كلمة
+    Load reference audio files for each word
     """
     processor = AudioProcessor()
     references = []
@@ -17,11 +18,11 @@ def load_word_references(words_dir, word_list):
     for item in word_list:
         file_path = os.path.join(
             words_dir,
-            item['file']  # اسم الملف من الـ JSON
+            item['file']  # Filename from JSON
         )
         
         if not os.path.exists(file_path):
-            print(f"⚠️  ملف غير موجود: {file_path}")
+            print(f"⚠️  File not found: {file_path}")
             continue
         
         audio, _ = processor.load_and_clean(file_path)
@@ -37,59 +38,59 @@ def run_poc(user_audio_path, ayah_data, words_dir):
     os.makedirs('output', exist_ok=True)
     
     processor  = AudioProcessor()
-    aligner    = WordAligner()
+    aligner    = DTWAligner()
     analyzer   = MaddAnalyzer()
-    visualizer = Visualizer()
+    visualizer = Visualizer(sr=settings.audio.sample_rate)
     
     print("=" * 50)
-    print("تحليل التلاوة — POC")
+    print("Recitation Analysis — POC")
     print("=" * 50)
     
-    # ١. تحميل صوت المستخدم
-    print("\n١. تحميل الصوت...")
+    # 1. Load user audio
+    print("\n1. Loading audio...")
     user_audio, sr = processor.load_and_clean(user_audio_path)
-    print(f"   مدة التسجيل: {len(user_audio)/sr:.2f} ثانية")
+    print(f"   Recording duration: {len(user_audio)/sr:.2f} seconds")
     
-    # ٢. تحميل الكلمات المرجعية
-    print("\n٢. تحميل الكلمات المرجعية...")
+    # 2. Load reference words
+    print("\n2. Loading reference words...")
     references = load_word_references(
         words_dir,
         ayah_data['words']
     )
-    print(f"   تم تحميل {len(references)} كلمة")
+    print(f"   Loaded {len(references)} words")
     
-    # ٣. محاذاة الكلمات
-    print("\n٣. محاذاة الكلمات...")
-    alignment_results = aligner.align_all_words(
+    # 3. Word alignment
+    print("\n3. Aligning words...")
+    alignment_results = aligner.align_sequence(
         user_audio,
         references
     )
     
-    print("\n   النتائج:")
+    print("\n   Results:")
     for r in alignment_results:
         if r['found']:
             print(
                 f"   ✅ {r['word']:15} "
                 f"{r['start_time']:.2f}s → {r['end_time']:.2f}s "
-                f"(ثقة: {r['confidence']:.0%})"
+                f"(Confidence: {r['confidence']:.0%})"
             )
         else:
-            print(f"   ❌ {r['word']:15} لم يُعثر عليها")
+            print(f"   ❌ {r['word']:15} Not found")
     
-    # ٤. تحليل المدود
-    print("\n٤. تحليل المدود...")
+    # 4. Madd (Lengthening) analysis
+    print("\n4. Analyzing Madd (Lengthening)...")
     
     harakah_duration = analyzer.calculate_harakah_duration([
         {'duration': r['duration']}
         for r in alignment_results
         if r['found'] and r['duration']
     ])
-    print(f"   زمن الحركة: {harakah_duration:.3f}s")
+    print(f"   Harakah duration: {harakah_duration:.3f}s")
     
     madd_evaluations = []
     for madd in ayah_data['madood']:
         
-        # إيجاد نتيجة المحاذاة للكلمة
+        # Find alignment result for the word
         aligned = next(
             (r for r in alignment_results
              if r['word'] == madd['word'] and r['found']),
@@ -97,16 +98,16 @@ def run_poc(user_audio_path, ayah_data, words_dir):
         )
         
         if not aligned:
-            print(f"   ⚠️  لم يتم العثور على: {madd['word']}")
+            print(f"   ⚠️  Word not found: {madd['word']}")
             continue
         
-        # قياس المد
+        # Measure Madd
         actual = analyzer.measure_madd(
             aligned,
             harakah_duration
         )
         
-        # الحكم
+        # Evaluate
         evaluation = analyzer.evaluate_madd(
             actual,
             required_min=madd.get(
@@ -132,40 +133,40 @@ def run_poc(user_audio_path, ayah_data, words_dir):
         })
         
         status_icon = {
-            'صحيح':  '✅',
-            'نقصان': '⚠️',
-            'زيادة': '🔵',
+            'Correct':  '✅',
+            'Short':    '⚠️',
+            'Long':     '🔵',
         }.get(evaluation['status'], '❌')
         
         print(
             f"\n   {status_icon} {madd['word']}"
-            f"\n      النوع:     {madd['type']}"
-            f"\n      المطلوب:   {madd_evaluations[-1]['required']} حركات"
-            f"\n      الفعلي:    {actual} حركات"
-            f"\n      الحكم:     {evaluation['status']}"
+            f"\n      Type:     {madd['type']}"
+            f"\n      Required: {madd_evaluations[-1]['required']} Harakaat"
+            f"\n      Actual:   {actual} Harakaat"
+            f"\n      Status:   {evaluation['status']}"
             + (f" — {evaluation['severity']}"
                if evaluation['severity'] else "")
         )
     
-    # ٥. الرسم البياني
-    print("\n٥. إنشاء التقرير البصري...")
+    # 5. Visual report
+    print("\n5. Generating visual report...")
     visualizer.plot_alignment_results(
         user_audio,
         alignment_results,
         madd_evaluations
     )
     
-    # ٦. النتيجة الإجمالية
+    # 6. Overall result
     correct = sum(
         1 for m in madd_evaluations
-        if m['evaluation']['status'] == 'صحيح'
+        if m['evaluation']['status'] == 'Correct'
     )
     total   = len(madd_evaluations)
     score   = round(correct / total * 100) if total else 0
     
     print("\n" + "=" * 50)
-    print(f"النتيجة الإجمالية: {score}%")
-    print(f"صحيح: {correct}/{total} مد")
+    print(f"Overall Score: {score}%")
+    print(f"Correct: {correct}/{total} Madd")
     print("=" * 50)
     
     return {
@@ -185,3 +186,6 @@ if __name__ == "__main__":
         ayah_data       = data['ayat'][0],
         words_dir       = 'audio/reference/words'
     )
+
+    print("⚙️ Config Loaded:")
+    print(settings)
