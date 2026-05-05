@@ -1,4 +1,4 @@
-# src/DTWAligner.py
+# src/core/DTWAligner.py
 import librosa
 import numpy as np
 from dtaidistance import dtw

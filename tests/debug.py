@@ -1,6 +1,10 @@
-# debug.py
+import os
+import sys
 import librosa
 import numpy as np
+
+# Add the project root to sys.path
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 def debug_audio(user_path, ref_dir):
     
@@ -55,6 +59,6 @@ def debug_audio(user_path, ref_dir):
 
 if __name__ == "__main__":
     debug_audio(
-        user_path="audio/user/test.wav",
+        user_path="audio/user/test1.wav",
         ref_dir="audio/reference/words"
     )

@@ -1,12 +1,17 @@
-# quick_test.py
+import os
+import sys
 import librosa
 import numpy as np
-from src.DTWAligner import DTWAligner
+
+# Add the project root to sys.path
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
+from src.core.DTWAligner import DTWAligner
 
 DTWAligner = DTWAligner()
 
-# تحميل الصوتين
-user, sr  = librosa.load("audio/user/test1.wav", sr=22050, mono=True)
+# load the reference and user audio files
+user, sr  = librosa.load("audio/user/test2.wav", sr=22050, mono=True)
 ref_bismi, _ = librosa.load(
     "audio/reference/words/001_001_001.mp3", 
     sr=22050, mono=True

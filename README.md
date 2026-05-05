@@ -48,28 +48,27 @@ It bridges **Islamic studies** with **modern signal processing and AI techniques
 ```
 quran_tajweed_poc/
 ├── audio/
-│   ├── reference/           # Reference recordings for comparison
-│   │   ├── words/          # Isolated word recordings
-│   │   │   ├── bismi.wav
-│   │   │   ├── allah.wav
-│   │   │   ├── alrahman.wav
-│   │   │   └── alraheem.wav
-│   │   └── full/           # Full Ayah (verse) recordings
-│   │       └── fatiha.wav
-│   └── user/               # User recordings to analyze
-│       └── test.wav
 ├── data/
-│   └── fatiha_madood.json  # Metadata: word timings, Madd rules, etc.
 ├── src/
-│   ├── audio_processor.py  # Audio loading, preprocessing, cleaning
-│   ├── DTWAligner.py          # Word alignment between user and reference audio
-│   ├── madd_analyzer.py    # Tajweed Madd rule detection and analysis
-│   ├── audio_aligner.py    # Additional alignment utilities
-│   ├── onset_detector.py   # Sound onset detection
-│   └── visualizer.py       # Generate visualizations of analysis results
-├── main.py                 # Main entry point for the POC
-├── structure.md            # Project structure documentation
-└── .gitignore              # Git ignore rules (excludes audio files)
+│   ├── core/
+│   │   ├── audio_processor.py
+│   │   ├── DTWAligner.py
+│   │   └── onset_detector.py
+│   ├── analysis/
+│   │   └── madd_analyzer.py
+│   ├── visualization/
+│   │   └── visualizer.py
+├── tests/
+│   ├── debug.py
+│   └── quick_test.py
+├── scripts/
+│   └── verify_files.py
+├── output/
+├── config/
+│   └── settings.py
+├── main.py
+├── structure.md
+└── .gitignore
 ```
 
 ## 🔧 Technology Stack
@@ -192,25 +191,25 @@ Output (Graphs, JSON results)
 
 ## 📝 Core Modules
 
-### `audio_processor.py`
+### `src/core/audio_processor.py`
 
 - `AudioProcessor` class for loading, cleaning, and preprocessing audio
 - Noise reduction, normalization
 - Feature extraction (spectrograms, MFCCs)
 
-### `DTWAligner.py`
+### `src/core/DTWAligner.py`
 
 - `WordAligner` class for aligning user audio with reference recordings
 - Uses DTW (Dynamic Time Warping) for time-series matching
 - Handles variable speech rates
 
-### `madd_analyzer.py`
+### `src/analysis/madd_analyzer.py`
 
 - `MaddAnalyzer` class for detecting Tajweed Madd rules
 - Analyzes vowel elongation patterns
 - Compares user performance against reference
 
-### `visualizer.py`
+### `src/visualization/visualizer.py`
 
 - `Visualizer` class for creating visual feedback
 - Waveform plots, spectrograms, alignment visualizations

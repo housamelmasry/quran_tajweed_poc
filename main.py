@@ -3,10 +3,10 @@ import numpy as np
 import json
 import os
 import argparse
-from src.audio_processor import AudioProcessor
-from src.DTWAligner import DTWAligner
-from src.core.madd_analyzer  import MaddAnalyzer
-from src.visualizer     import Visualizer
+from src.core.audio_processor import AudioProcessor
+from src.core.DTWAligner import DTWAligner
+from src.analysis.madd_analyzer import MaddAnalyzer
+from src.visualization.visualizer import Visualizer
 from config.settings import settings
 
 def load_word_references(words_dir, word_list):
@@ -39,7 +39,7 @@ def run_poc(user_audio_path, ayah_data, words_dir):
     os.makedirs('output', exist_ok=True)
     
     processor  = AudioProcessor()
-    DTWAligner    = DTWAligner()
+    aligner    = DTWAligner()
     analyzer   = MaddAnalyzer()
     visualizer = Visualizer(sr=settings.audio.sample_rate)
     
@@ -62,7 +62,7 @@ def run_poc(user_audio_path, ayah_data, words_dir):
     
     # 3. Word alignment
     print("\n3. Aligning words...")
-    alignment_results = DTWAligner.align_sequence(
+    alignment_results = aligner.align_sequence(
         user_audio,
         references
     )
