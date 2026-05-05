@@ -2,7 +2,7 @@
   "surah": 1,
   "name": "الفاتحة",
   "reciter": "حفص عن عاصم",
-  "words_dir": "audio/reference/words/fatiha/",
+  "words_dir": "audio/reference/words/",
   "ayat": [
     {
       "ayah": 1,
@@ -10,29 +10,29 @@
       "words": [
         {
           "word": "بِسْمِ",
-          "file": "001_001_bismi.wav",
+          "file": "001_001_001.mp3",
           "has_madd": false
         },
         {
           "word": "اللَّهِ",
-          "file": "001_001_allah.wav",
+          "file": "001_001_002.mp3",
           "has_madd": false
         },
         {
           "word": "الرَّحْمَٰنِ",
-          "file": "001_001_alrahman.wav",
+          "file": "001_001_003.mp3",
           "has_madd": true
         },
         {
           "word": "الرَّحِيمِ",
-          "file": "001_001_alraheem.wav",
+          "file": "001_001_004.mp3",
           "has_madd": true
         }
       ],
       "madood": [
         {
           "word": "الرَّحْمَٰنِ",
-          "file": "001_001_alrahman.wav",
+          "file": "001_001_003.mp3",
           "type": "مد طبيعي",
           "letter": "ا",
           "harakaat": 2,
@@ -43,7 +43,7 @@
         },
         {
           "word": "الرَّحِيمِ",
-          "file": "001_001_alraheem.wav",
+          "file": "001_001_004.mp3",
           "type": "مد طبيعي",
           "letter": "ي",
           "harakaat": 2,
@@ -60,29 +60,29 @@
       "words": [
         {
           "word": "الْحَمْدُ",
-          "file": "001_002_alhamdu.wav",
+          "file": "001_002_001.mp3",
           "has_madd": false
         },
         {
           "word": "لِلَّهِ",
-          "file": "001_002_lillah.wav",
+          "file": "001_002_002.mp3",
           "has_madd": false
         },
         {
           "word": "رَبِّ",
-          "file": "001_002_rabbi.wav",
+          "file": "001_002_003.mp3",
           "has_madd": false
         },
         {
           "word": "الْعَالَمِينَ",
-          "file": "001_002_aalameen.wav",
+          "file": "001_002_004.mp3",
           "has_madd": true
         }
       ],
       "madood": [
         {
           "word": "الْعَالَمِينَ",
-          "file": "001_002_aalameen.wav",
+          "file": "001_002_004.mp3",
           "type": "مد طبيعي",
           "letter": "ا",
           "harakaat": 2,
@@ -93,15 +93,15 @@
         },
         {
           "word": "الْعَالَمِينَ",
-          "file": "001_002_aalameen.wav",
+          "file": "001_002_004.mp3",
           "type": "عارض للسكون",
           "letter": "ي",
           "harakaat": 2,
           "harakaat_min": 2,
           "harakaat_max": 6,
           "position_in_ayah": 4,
-          "notes": "مد الياء في العالمين — عارض للسكون عند الوقف",
-          "waqf_only": true
+          "waqf_only": true,
+          "notes": "مد الياء في العالمين — عارض للسكون عند الوقف"
         }
       ]
     },
@@ -111,19 +111,19 @@
       "words": [
         {
           "word": "الرَّحْمَٰنِ",
-          "file": "001_003_alrahman.wav",
+          "file": "001_003_001.mp3",
           "has_madd": true
         },
         {
           "word": "الرَّحِيمِ",
-          "file": "001_003_alraheem.wav",
+          "file": "001_003_002.mp3",
           "has_madd": true
         }
       ],
       "madood": [
         {
           "word": "الرَّحْمَٰنِ",
-          "file": "001_003_alrahman.wav",
+          "file": "001_003_001.mp3",
           "type": "مد طبيعي",
           "letter": "ا",
           "harakaat": 2,
@@ -134,15 +134,15 @@
         },
         {
           "word": "الرَّحِيمِ",
-          "file": "001_003_alraheem.wav",
+          "file": "001_003_002.mp3",
           "type": "عارض للسكون",
           "letter": "ي",
           "harakaat": 2,
           "harakaat_min": 2,
           "harakaat_max": 6,
           "position_in_ayah": 2,
-          "notes": "مد الياء في الرحيم — عارض للسكون عند الوقف",
-          "waqf_only": true
+          "waqf_only": true,
+          "notes": "مد الياء في الرحيم — عارض للسكون عند الوقف"
         }
       ]
     },
@@ -152,24 +152,24 @@
       "words": [
         {
           "word": "مَالِكِ",
-          "file": "001_004_maliki.wav",
+          "file": "001_004_001.mp3",
           "has_madd": true
         },
         {
           "word": "يَوْمِ",
-          "file": "001_004_yawmi.wav",
+          "file": "001_004_002.mp3",
           "has_madd": false
         },
         {
           "word": "الدِّينِ",
-          "file": "001_004_aldeen.wav",
+          "file": "001_004_003.mp3",
           "has_madd": true
         }
       ],
       "madood": [
         {
           "word": "مَالِكِ",
-          "file": "001_004_maliki.wav",
+          "file": "001_004_001.mp3",
           "type": "مد طبيعي",
           "letter": "ا",
           "harakaat": 2,
@@ -180,15 +180,15 @@
         },
         {
           "word": "الدِّينِ",
-          "file": "001_004_aldeen.wav",
+          "file": "001_004_003.mp3",
           "type": "عارض للسكون",
           "letter": "ي",
           "harakaat": 2,
           "harakaat_min": 2,
           "harakaat_max": 6,
           "position_in_ayah": 3,
-          "notes": "مد الياء في الدين — عارض للسكون عند الوقف",
-          "waqf_only": true
+          "waqf_only": true,
+          "notes": "مد الياء في الدين — عارض للسكون عند الوقف"
         }
       ]
     },
@@ -198,29 +198,29 @@
       "words": [
         {
           "word": "إِيَّاكَ",
-          "file": "001_005_iyyaka_1.wav",
+          "file": "001_005_001.mp3",
           "has_madd": true
         },
         {
           "word": "نَعْبُدُ",
-          "file": "001_005_nabudu.wav",
+          "file": "001_005_002.mp3",
           "has_madd": false
         },
         {
           "word": "وَإِيَّاكَ",
-          "file": "001_005_iyyaka_2.wav",
+          "file": "001_005_003.mp3",
           "has_madd": true
         },
         {
           "word": "نَسْتَعِينُ",
-          "file": "001_005_nastaeen.wav",
+          "file": "001_005_004.mp3",
           "has_madd": true
         }
       ],
       "madood": [
         {
           "word": "إِيَّاكَ",
-          "file": "001_005_iyyaka_1.wav",
+          "file": "001_005_001.mp3",
           "type": "مد طبيعي",
           "letter": "ي",
           "harakaat": 2,
@@ -231,7 +231,7 @@
         },
         {
           "word": "وَإِيَّاكَ",
-          "file": "001_005_iyyaka_2.wav",
+          "file": "001_005_003.mp3",
           "type": "مد طبيعي",
           "letter": "ي",
           "harakaat": 2,
@@ -242,15 +242,15 @@
         },
         {
           "word": "نَسْتَعِينُ",
-          "file": "001_005_nastaeen.wav",
+          "file": "001_005_004.mp3",
           "type": "عارض للسكون",
           "letter": "ي",
           "harakaat": 2,
           "harakaat_min": 2,
           "harakaat_max": 6,
           "position_in_ayah": 4,
-          "notes": "مد الياء في نستعين — عارض للسكون عند الوقف",
-          "waqf_only": true
+          "waqf_only": true,
+          "notes": "مد الياء في نستعين — عارض للسكون عند الوقف"
         }
       ]
     },
@@ -260,24 +260,24 @@
       "words": [
         {
           "word": "اهْدِنَا",
-          "file": "001_006_ihdina.wav",
+          "file": "001_006_001.mp3",
           "has_madd": true
         },
         {
           "word": "الصِّرَاطَ",
-          "file": "001_006_alssirat.wav",
+          "file": "001_006_002.mp3",
           "has_madd": true
         },
         {
           "word": "الْمُسْتَقِيمَ",
-          "file": "001_006_almustaqeem.wav",
+          "file": "001_006_003.mp3",
           "has_madd": true
         }
       ],
       "madood": [
         {
           "word": "اهْدِنَا",
-          "file": "001_006_ihdina.wav",
+          "file": "001_006_001.mp3",
           "type": "مد طبيعي",
           "letter": "ا",
           "harakaat": 2,
@@ -288,7 +288,7 @@
         },
         {
           "word": "الصِّرَاطَ",
-          "file": "001_006_alssirat.wav",
+          "file": "001_006_002.mp3",
           "type": "مد طبيعي",
           "letter": "ا",
           "harakaat": 2,
@@ -299,15 +299,15 @@
         },
         {
           "word": "الْمُسْتَقِيمَ",
-          "file": "001_006_almustaqeem.wav",
+          "file": "001_006_003.mp3",
           "type": "عارض للسكون",
           "letter": "ي",
           "harakaat": 2,
           "harakaat_min": 2,
           "harakaat_max": 6,
           "position_in_ayah": 3,
-          "notes": "مد الياء في المستقيم — عارض للسكون عند الوقف",
-          "waqf_only": true
+          "waqf_only": true,
+          "notes": "مد الياء في المستقيم — عارض للسكون عند الوقف"
         }
       ]
     },
@@ -317,54 +317,54 @@
       "words": [
         {
           "word": "صِرَاطَ",
-          "file": "001_007_sirata.wav",
+          "file": "001_007_001.mp3",
           "has_madd": true
         },
         {
           "word": "الَّذِينَ",
-          "file": "001_007_allatheena.wav",
+          "file": "001_007_002.mp3",
           "has_madd": true
         },
         {
           "word": "أَنْعَمْتَ",
-          "file": "001_007_anamta.wav",
+          "file": "001_007_003.mp3",
           "has_madd": false
         },
         {
           "word": "عَلَيْهِمْ",
-          "file": "001_007_alayhim_1.wav",
+          "file": "001_007_004.mp3",
           "has_madd": false
         },
         {
           "word": "غَيْرِ",
-          "file": "001_007_ghayri.wav",
+          "file": "001_007_005.mp3",
           "has_madd": false
         },
         {
           "word": "الْمَغْضُوبِ",
-          "file": "001_007_almaghdoob.wav",
+          "file": "001_007_006.mp3",
           "has_madd": true
         },
         {
           "word": "عَلَيْهِمْ",
-          "file": "001_007_alayhim_2.wav",
+          "file": "001_007_007.mp3",
           "has_madd": false
         },
         {
           "word": "وَلَا",
-          "file": "001_007_wala.wav",
+          "file": "001_007_008.mp3",
           "has_madd": true
         },
         {
           "word": "الضَّالِّينَ",
-          "file": "001_007_alddaleen.wav",
+          "file": "001_007_009.mp3",
           "has_madd": true
         }
       ],
       "madood": [
         {
           "word": "صِرَاطَ",
-          "file": "001_007_sirata.wav",
+          "file": "001_007_001.mp3",
           "type": "مد طبيعي",
           "letter": "ا",
           "harakaat": 2,
@@ -375,7 +375,7 @@
         },
         {
           "word": "الَّذِينَ",
-          "file": "001_007_allatheena.wav",
+          "file": "001_007_002.mp3",
           "type": "مد طبيعي",
           "letter": "ي",
           "harakaat": 2,
@@ -386,7 +386,7 @@
         },
         {
           "word": "الْمَغْضُوبِ",
-          "file": "001_007_almaghdoob.wav",
+          "file": "001_007_006.mp3",
           "type": "مد طبيعي",
           "letter": "و",
           "harakaat": 2,
@@ -397,7 +397,7 @@
         },
         {
           "word": "وَلَا",
-          "file": "001_007_wala.wav",
+          "file": "001_007_008.mp3",
           "type": "مد طبيعي",
           "letter": "ا",
           "harakaat": 2,
@@ -408,15 +408,15 @@
         },
         {
           "word": "الضَّالِّينَ",
-          "file": "001_007_alddaleen.wav",
+          "file": "001_007_009.mp3",
           "type": "عارض للسكون",
           "letter": "ا",
           "harakaat": 2,
           "harakaat_min": 2,
           "harakaat_max": 6,
           "position_in_ayah": 9,
-          "notes": "مد الألف في الضالين — عارض للسكون عند الوقف",
-          "waqf_only": true
+          "waqf_only": true,
+          "notes": "مد الألف في الضالين — عارض للسكون عند الوقف"
         }
       ]
     }
