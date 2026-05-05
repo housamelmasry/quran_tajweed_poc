@@ -1,8 +1,4 @@
-# Audio files
-audio/reference/words/*.mp3
-audio/reference/ayahs/*.mp3
-audio/reference/full/*.mp3
-audio/user/*
+# Ignore all audio files everywhere
 *.mp3
 *.wav
 
@@ -14,7 +10,7 @@ __pycache__/
 .Python
 env/
 venv/
-.venv
+.venv/
 
 # IDE
 .vscode/
