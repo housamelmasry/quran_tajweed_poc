@@ -11,7 +11,7 @@ from src.core.DTWAligner import DTWAligner
 DTWAligner = DTWAligner()
 
 # load the reference and user audio files
-user, sr  = librosa.load("audio/user/test2.wav", sr=22050, mono=True)
+user, sr  = librosa.load("audio/user/test3.wav", sr=22050, mono=True)
 ref_bismi, _ = librosa.load(
     "audio/reference/words/001_001_001.mp3", 
     sr=22050, mono=True

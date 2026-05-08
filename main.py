@@ -102,9 +102,15 @@ def run_poc(user_audio_path, ayah_data, words_dir):
             print(f"   ⚠️  Word not found: {madd['word']}")
             continue
         
-        # Measure Madd
-        actual = analyzer.measure_madd(
-            aligned,
+        # Extract word audio segment
+        start_samp = int(aligned['start_time'] * sr)
+        end_samp   = int(aligned['end_time'] * sr)
+        word_audio = user_audio[start_samp:end_samp]
+
+        # Smart measure based on energy
+        actual = analyzer.measure_madd_smart(
+            word_audio,
+            sr,
             harakah_duration
         )
         
